@@ -2,12 +2,16 @@ import { Suspense } from "react";
 import ProductDetailsSkeleton from "./productSkeleton";
 import ProductDetailsContent from "./productDetails";
 
-function ProductDetailsPage({ params }: { params: { id: string } }) {
+type ParamProps = Promise<{
+  id: string;
+}>
+
+export default async function ProductDetailsPage(props: { params: ParamProps }) {
+  const  { id } = await props.params
+
   return (
     <Suspense fallback={<ProductDetailsSkeleton />}>
-      <ProductDetailsContent id={params.id} />
+      <ProductDetailsContent id={id} />
     </Suspense>
   );
 }
-
-export default ProductDetailsPage;
