@@ -18,19 +18,10 @@ import { brands, categories, colors, sizes } from "@/utils/config";
 import { Upload } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, Suspense, useEffect, useState } from "react";
 
-interface FormState {
-  name: string;
-  brand: string;
-  description: string;
-  category: string;
-  gender: string;
-  price: string;
-  stock: string;
-}
-
-function SuperAdminManageProductPage() {
+// Separate client component that uses useSearchParams
+function ProductFormContent() {
   const [formState, setFormState] = useState({
     name: "",
     brand: "",
@@ -345,6 +336,15 @@ function SuperAdminManageProductPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+// Main component with Suspense boundary
+function SuperAdminManageProductPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductFormContent />
+    </Suspense>
   );
 }
 
